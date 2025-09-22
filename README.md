@@ -81,6 +81,41 @@ Tắt container Docker
 
 → Giờ thư mục myproject/ có code + DB mới nhất.
 
+
+
+----> Cách xuất DB:
+
+Trong MySQL/phpMyAdmin không có khái niệm “database group” thực sự. Cái bạn thấy là phpMyAdmin gom các database có tên giống nhau vào nhóm để dễ nhìn, nhưng về MySQL, mỗi database là hoàn toàn riêng biệt.
+
+Nghĩa là dù bạn thấy:
+
+Group verdhn_demo1
+ ├─ verdhn_demo1_db
+ └─ verdhn_demo1_test_db
+
+
+Thực ra MySQL vẫn coi là 2 database riêng: verdhn_demo1_db và verdhn_demo1_test_db.
+
+🔹 Cách export 2 database này
+
+Export từng database một
+
+Vào phpMyAdmin → chọn verdhn_demo1_db → tab Export → Quick → SQL → Go → lưu file verdhn_demo1_db.sql.
+
+Chọn verdhn_demo1_test_db → Export tương tự → lưu file verdhn_demo1_test_db.sql.
+
+Export nhiều database cùng lúc (nếu muốn 1 file)
+
+Ở trang chính phpMyAdmin → tab Export → chọn Custom → tick chọn cả 2 database → Export → lưu 1 file .sql.
+
+File này sẽ chứa cả 2 database. Khi import, MySQL sẽ tạo cả 2 database cùng lúc.
+
+🔹 Lưu ý quan trọng
+
+Tên nhóm trong phpMyAdmin chỉ để hiển thị, không ảnh hưởng đến export/import.
+
+Khi import file SQL, hãy chắc chắn rằng database đã được tạo hoặc file SQL có lệnh CREATE DATABASE ... và USE ... để MySQL tự tạo database.
+
 📝 Bước 6: Đồng bộ GitHub
 git add .
 git commit -m "Update site"
@@ -162,4 +197,5 @@ sh down.sh = Export DB + Stop
 git push = đẩy code + DB mới lên GitHub
 
 Máy khác git pull + sh up.sh = chạy site y hệt
+
 
