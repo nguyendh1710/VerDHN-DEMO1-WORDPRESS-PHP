@@ -1,0 +1,9 @@
+# Không commit file config chứa mật khẩu
+wp-config.php
+
+# Uploads có thể lớn, nếu bạn muốn chia sẻ thì có thể bỏ mục này
+wp-content/uploads/
+
+# Docker volumes, cache
+db_data/
+*.log
