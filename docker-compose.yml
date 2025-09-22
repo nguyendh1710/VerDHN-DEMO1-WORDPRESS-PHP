@@ -1,24 +1,23 @@
-version: '3.9'
 services:
   db:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: root
-      MYSQL_PASSWORD: example
+      MYSQL_DATABASE: verdhn_demo1_db # tên DB của bạn
     volumes:
       - db_data:/var/lib/mysql
+
   wordpress:
     image: wordpress:latest
     ports:
       - '8000:80'
     environment:
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: root
       WORDPRESS_DB_PASSWORD: example
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_NAME: verdhn_demo1_db
     volumes:
       - ./wp-content:/var/www/html/wp-content
+
 volumes:
   db_data:
