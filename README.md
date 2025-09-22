@@ -18,11 +18,85 @@ File wp-config.php không cần đưa vào repo (Docker tự tạo khi bạn set
 
 Mỗi lần thay đổi code + DB xong, chạy sh down.sh để export DB mới, commit lên GitHub → máy khác chỉ cần sh up.sh là có site y hệt.
 
+Cách chạy:
+📝 Bước 1: Cài Docker
 
-----------
+Nếu chưa có Docker:
 
-Cụ thể:
+Windows: tải Docker Desktop
+ → cài đặt.
 
+macOS/Linux: cài Docker theo hướng dẫn.
+
+Sau khi cài xong, mở Terminal/PowerShell chạy:
+
+docker --version
+docker compose version
+
+
+để chắc chắn Docker đã hoạt động.
+
+📝 Bước 2: Mở Terminal/PowerShell trong thư mục dự án
+cd path/to/myproject
+
+📝 Bước 3: Chạy up.sh để khởi động site
+
+Trên Linux/Mac:
+
+sh up.sh
+
+
+Trên Windows (PowerShell):
+
+bash up.sh
+
+
+Script sẽ:
+
+Bật container wordpress + db
+
+Chờ database khởi động
+
+Import database/db.sql vào MySQL
+
+→ Mở trình duyệt: http://localhost:8000 → thấy site WordPress chạy.
+
+📝 Bước 4: Làm việc trên site
+
+Bạn có thể:
+
+Sửa theme/plugin trong wp-content (trên máy hoặc qua WP Admin)
+
+Upload ảnh, tạo bài viết mới trên WP Admin
+
+→ WordPress đang chạy trên Docker, dữ liệu ở trong container.
+
+📝 Bước 5: Khi xong, xuất DB + tắt container
+sh down.sh
+
+
+Script sẽ dump database trong container ra file database/db.sql
+
+Tắt container Docker
+
+→ Giờ thư mục myproject/ có code + DB mới nhất.
+
+📝 Bước 6: Đồng bộ GitHub
+git add .
+git commit -m "Update site"
+git push
+
+
+→ Repo GitHub chứa code + DB mới nhất.
+
+📝 Bước 7: Trên máy khác
+git clone https://github.com/<username>/<repo>.git
+cd myproject
+sh up.sh
+
+
+→ Máy khác chạy site y hệt máy này.
+---------------------
 Ý tưởng của up.sh và down.sh:
 
 up.sh = khởi động WordPress + MySQL bằng Docker + import database từ file db.sql (nếu có).
@@ -30,6 +104,8 @@ up.sh = khởi động WordPress + MySQL bằng Docker + import database từ fi
 down.sh = xuất database hiện tại trong container ra file db.sql + tắt container.
 
 → Nhờ vậy: file db.sql trong repo luôn chứa database mới nhất, còn thư mục wp-content chứa theme/plugin/upload mới nhất. Khi đẩy lên GitHub, cả code + DB đều cập nhật.
+
+-------------------
 
 🔄 Quy trình hằng ngày khi bạn làm việc:
 🟢 1. Khi bắt đầu làm trên máy:
@@ -86,3 +162,4 @@ sh down.sh = Export DB + Stop
 git push = đẩy code + DB mới lên GitHub
 
 Máy khác git pull + sh up.sh = chạy site y hệt
+
